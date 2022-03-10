@@ -11,12 +11,16 @@ public class StudentResponse {
 
 	private String email;
 
-	private Long addressId;
+	private AddressResponse address;
 	
+
+	public StudentResponse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public StudentResponse(Student student) {
 		super();
-		this.addressId=student.getAddressId();
 		this.email=student.getEmail();
 		this.firstName=student.getFirstName();
 		this.lastName=student.getLastName();
@@ -55,13 +59,15 @@ public class StudentResponse {
 		this.email = email;
 	}
 
-	public Long getAddressId() {
-		return addressId;
+	public AddressResponse getAddress() {
+		return address;
 	}
 
-	public void setAddressId(Long addressId) {
-		this.addressId = addressId;
+	public void setAddress(AddressResponse address) {
+		this.address = address;
 	}
+
+	
 	
 
 }

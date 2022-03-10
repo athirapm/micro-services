@@ -4,16 +4,22 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.example.student.dto.AddressResponse;
 import com.example.student.dto.StudentRequest;
 import com.example.student.dto.StudentResponse;
 import com.example.student.entity.Student;
 import com.example.student.repository.StudentRepository;
 
+import reactor.core.publisher.Mono;
+
 @Service
 public class StudentService {
 	@Autowired
 	StudentRepository repository;
+	@Autowired
+	WebClient webClient;
 
 	public StudentResponse save(StudentRequest studentRequest) {
 		Student student = new Student();
@@ -22,14 +28,24 @@ public class StudentService {
 		student.setFirstName(studentRequest.getEmail());
 		student.setLastName(studentRequest.getLastName());
 		repository.save(student);
-		return new StudentResponse(student);
+		StudentResponse studentResponse = new StudentResponse(student);
+		studentResponse.setAddress(getStudentAddress(student.getAddressId()));
+		return studentResponse;
 	}
 
 	public StudentResponse fetch(Long id) {
 		Optional<Student> student = repository.findById(id);
-		if (student.isPresent())
-			return new StudentResponse(student.get());
+		StudentResponse response = null;
+		if (student.isPresent()) {
+			response = new StudentResponse(student.get());
+			response.setAddress(getStudentAddress(student.get().getAddressId()));
+			return response;
+		}
 		return null;
+	}
+
+	public AddressResponse getStudentAddress(Long id) {
+		return webClient.get().uri("/fetch/?id=" + id).retrieve().bodyToMono(AddressResponse.class).block();
 	}
 
 }

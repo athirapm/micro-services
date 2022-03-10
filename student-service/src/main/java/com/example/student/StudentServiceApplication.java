@@ -9,14 +9,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 public class StudentServiceApplication {
 	@Value("${address.service.url}")
-	private String addreessServiceUrl;
+	private String addressServiceUrl;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudentServiceApplication.class, args);
 	}
 	@Bean
 	public WebClient webClient() {
-		WebClient webClient=WebClient.builder().baseUrl(null).build();
+		WebClient webClient=WebClient.builder().baseUrl(addressServiceUrl).build();
 		return webClient;
 	}
 

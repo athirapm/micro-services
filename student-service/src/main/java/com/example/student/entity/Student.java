@@ -1,4 +1,4 @@
-package com.example.address.entity;
+package com.example.student.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

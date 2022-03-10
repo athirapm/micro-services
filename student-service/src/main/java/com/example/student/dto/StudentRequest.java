@@ -1,10 +1,8 @@
-package com.example.address.dto;
+package com.example.student.dto;
 
-import com.example.address.entity.Student;
-
-public class StudentResponse {
+public class StudentRequest {
 	private Long id;
-
+	
 	private String firstName;
 
 	private String lastName;
@@ -12,16 +10,6 @@ public class StudentResponse {
 	private String email;
 
 	private Long addressId;
-	
-
-	public StudentResponse(Student student) {
-		super();
-		this.addressId=student.getAddressId();
-		this.email=student.getEmail();
-		this.firstName=student.getFirstName();
-		this.lastName=student.getLastName();
-		this.id=student.getId();
-	}
 
 	public Long getId() {
 		return id;

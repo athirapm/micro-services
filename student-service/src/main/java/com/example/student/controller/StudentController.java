@@ -1,4 +1,4 @@
-package com.example.address.controller;
+package com.example.student.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.address.dto.StudentRequest;
-import com.example.address.dto.StudentResponse;
-import com.example.address.service.StudentService;
+import com.example.student.dto.StudentRequest;
+import com.example.student.dto.StudentResponse;
+import com.example.student.service.StudentService;
 
 @RestController
 @RequestMapping("/student")

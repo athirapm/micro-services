@@ -10,9 +10,8 @@ import com.example.student.dto.AddressResponse;
 import com.example.student.dto.StudentRequest;
 import com.example.student.dto.StudentResponse;
 import com.example.student.entity.Student;
+import com.example.student.feignclient.AddressFeignClient;
 import com.example.student.repository.StudentRepository;
-
-import reactor.core.publisher.Mono;
 
 @Service
 public class StudentService {
@@ -20,6 +19,8 @@ public class StudentService {
 	StudentRepository repository;
 	@Autowired
 	WebClient webClient;
+	@Autowired
+	AddressFeignClient addressFeignClient;
 
 	public StudentResponse save(StudentRequest studentRequest) {
 		Student student = new Student();
@@ -29,7 +30,9 @@ public class StudentService {
 		student.setLastName(studentRequest.getLastName());
 		repository.save(student);
 		StudentResponse studentResponse = new StudentResponse(student);
-		studentResponse.setAddress(getStudentAddress(student.getAddressId()));
+		//studentResponse.setAddress(getStudentAddress(student.getAddressId()));
+		// calling address service using open feign client
+		studentResponse.setAddress(addressFeignClient.fetchAddress(student.getAddressId()));
 		return studentResponse;
 	}
 
@@ -38,12 +41,14 @@ public class StudentService {
 		StudentResponse response = null;
 		if (student.isPresent()) {
 			response = new StudentResponse(student.get());
-			response.setAddress(getStudentAddress(student.get().getAddressId()));
+			// calling address service using open feign client
+			response.setAddress(addressFeignClient.fetchAddress(student.get().getAddressId()));
 			return response;
 		}
 		return null;
 	}
 
+	// calling address service using web client
 	public AddressResponse getStudentAddress(Long id) {
 		return webClient.get().uri("/fetch/?id=" + id).retrieve().bodyToMono(AddressResponse.class).block();
 	}

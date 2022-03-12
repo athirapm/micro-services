@@ -8,7 +8,7 @@ import com.example.student.dto.AddressResponse;
 // specifying the url and name of the address service
 //@FeignClient(url = "${address.service.url}", value = "address-feign-client")
 // specifying the name of the service as appeared in the eureka registry
-@FeignClient(value = "address-service")
+@FeignClient(value = "address-service",path="/address")
 public interface AddressFeignClient {
 	@GetMapping("/fetch")
 	public AddressResponse fetchAddress(@RequestParam Long id);
